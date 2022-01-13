@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Garantindo /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "{{ item }}"
+      with_items:
+        - 200.100.50.200 kube-client
+
+    - name: Instalando pacotes de dependencias para o curso de Rancher
+      yum:
+        name: ['git']
+
+    - name: Criando o arquivo ldap-base.ldif
+      copy:
+        src: files/ldap-base.ldif
+        dest: /opt
+        mode: 0644
+        owner: suporte
+        group: suporte
+
+    - name: Criando diretório wordpress-deploy
+      synchronize:
+        src: files/wordpress-deploy
+        dest: /opt
