@@ -27,5 +27,6 @@ Vagrant.configure('2') do |config|
       k.vm.provision 'ansible_local' do |ansible|
         ansible.playbook = "#{conf['provision']}"
       end
+    end
   end
 end
